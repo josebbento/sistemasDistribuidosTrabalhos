@@ -45,6 +45,14 @@ class apoio:
         for i in range(quant):
             arq.write(apoio.geraPalavra(randint(1, 15)) + '\n')
 
+    def org(lista):
+        """o metodo ordena a lista e a modifica
+
+        Args:
+            lista (list): lista de palavras e local de destino
+        """        
+        lista.sort()
+
     def quick(lista):
         """o metodo ordena uma lista em ordem alfabética
 
@@ -61,8 +69,8 @@ class apoio:
             mid=[i for i in lista if i==val]
             rgt=[i for i in lista if i>val]
 
-            res=apoio.quick(lft)+mid+apoio.quick(rgt)
-            return res
+            lista=apoio.quick(lft)+mid+apoio.quick(rgt)
+            return lista
         else:
             return lista
         
@@ -75,24 +83,19 @@ def main():
 
     t1 = Thread(target=apoio.colocaLista, args=(lista1, quant))
     t1.start()
-
+    
     t2 = Thread(target=apoio.colocaArq, args=quant)
     t2.start()
 
     t1.join(); t2.join
     
-
     lista2 = lista1.copy()
     
-
-    t3 = Thread(target=apoio.colocaLista, args=(lista1, quant))
+    t3 = Thread(target=apoio.org, args=lista1)
     t3.start()
 
-    t4 = Thread(target=apoio.colocaArq, args=quant)
+    t4 = Thread(target=apoio.quick, args=lista2)
     t4.start()
-    
-    lista1 = t3.result()
-    lista2 = t4.result()
     
     print(lista1)
     print(lista2)
