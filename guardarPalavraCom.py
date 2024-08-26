@@ -1,7 +1,6 @@
 from random import randint
 from threading import Thread
-lista = []
-lista.sort
+from concurrent.futures import ThreadPoolExecutor
 
 class apoio:
     """essa classe serve de apoio para o script principal
@@ -66,20 +65,37 @@ class apoio:
             return res
         else:
             return lista
-
-if __name__ == '__main__':
-    quant = 10
+        
+    def ord(listaIn, listaOut):
+        listaOut = sorted(listaIn)
+        
+def main():
+    quant = 10**6
     lista1 = []
 
     t1 = Thread(target=apoio.colocaLista, args=(lista1, quant))
     t1.start()
 
     t2 = Thread(target=apoio.colocaArq, args=quant)
-    t2.start
+    t2.start()
 
     t1.join(); t2.join
+    
 
     lista2 = lista1.copy()
-    lista1.sort()
+    
+
+    t3 = Thread(target=apoio.colocaLista, args=(lista1, quant))
+    t3.start()
+
+    t4 = Thread(target=apoio.colocaArq, args=quant)
+    t4.start()
+    
+    lista1 = t3.result()
+    lista2 = t4.result()
+    
     print(lista1)
-    print(apoio.quick(lista2))
+    print(lista2)
+
+if __name__ == '__main__':
+    main()
